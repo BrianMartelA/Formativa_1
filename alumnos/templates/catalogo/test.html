@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        {% if not user.is_superuser and not user.is_staff %}
+        <li><a class="dropdown-item" href="{% url 'perfil'%}">Perfil</a></li>
+        <li>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light">logout</button>
+          </form>
+        </li>
+        {% elif user.is_staff%}
+        <li><a class="dropdown-item" href="{% url 'perfil'%}">Perfil admin</a></li>
+        <li>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light">logout</button>
+          </form>
+        </li>
+        {% endif %}
+        {% else %}
+        <li><a class="dropdown-item" href="{% url 'registro' %}">Registro</a></li>
+        <li><a class="dropdown-item" href="{% url 'login'%}">Inicio sesion</a></li>
+        {% endif %}
+
+        <div class="container">
+            <h1 class="text-center">Catalogo de productos {{ user.username }}!</h1>
+
+            <button type="button">
+                <a href="{% url 'product_add.html' %}">Agregar producto</a>
+            </button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>id del producto</th>
+                        <th>Precio</th>
+                        <th>Descripcion</th>
+                        <th>Stock</th>
+                        <th>Imagen</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in Productos %}
+                    <tr>
+                        <td>{{product.nombre}}</td>
+                        <td>{{product.id}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.descripcion}}</td>
+                        <td>{{product.Stock}}</td>
+                        <td><img src="{{product.imagen.url}}" width="100" height="100"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            
+            
+        </div>
+</body>
+</html>

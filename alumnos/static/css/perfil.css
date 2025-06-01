@@ -1,0 +1,71 @@
+.fondo{
+    background-color: bisque;
+    width: 20%;
+    height: 150px;
+    margin-left: 10%;
+    margin-top: 2%;
+    
+}
+
+.fondo_div {
+    width: 20%;
+    height: 20%;
+    overflow: hidden;
+    margin-left: 5%;
+    background-color: bisque;
+    margin-left: 5%;
+    padding-bottom: 1%;
+    border-radius: 20px;
+  }
+
+  .footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 15%;
+    width: 100%;
+    background-color: rgb(223, 142, 43);
+    color: black;
+    text-align: center;
+    
+}
+
+.esconder
+{
+
+  position: absolute;
+  
+  margin-left: 1%;
+  padding-left: 1%;
+  padding-right: 1%;
+  border-radius: 8%;
+  cursor: pointer;
+  border: 1px solid;
+ 
+}
+.esconder_2
+{
+
+  position: absolute;
+  margin-left: 5%;
+  padding-left: 1%;
+  padding-right: 1%;
+  border-radius: 8%;
+  cursor: pointer;
+  border: 1px solid;
+
+ 
+}
+
+.errores
+{
+  display: none;
+  position: absolute;
+  margin-top: -3%;
+  margin-left: 15%;
+  background-color: rgb(243, 171, 84);
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 8%;
+ 
+}

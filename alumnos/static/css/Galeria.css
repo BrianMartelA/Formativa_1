@@ -1,0 +1,112 @@
+
+
+.fondo{
+    background-color: bisque;
+    width: 40%;
+    height: 150px;
+    margin-left: 5%;
+}
+
+.fondo_div {
+    width: 20%;
+    height: 20%;
+    overflow: hidden;
+    margin-left: 5%;
+    background-color: bisque;
+    margin-left: 5%;
+    padding-bottom: 1%;
+    border-radius: 20px;
+  }
+
+  .form_reg {
+    width: 35%;
+    height: 50%;
+    background-color: bisque;
+    margin-left: 32%;
+    padding-bottom: 1%;
+    border-radius: 20px;
+    margin-top: 1%;
+    padding-left: 1%;
+    
+  }
+  .imagen{
+    width:85% ;
+    height:80% ;
+    margin-top: 2%;
+  }
+  .fondo_div:hover{
+    transform: scale(1.5);
+  }
+
+  .box{
+    width: 100%;
+  min-width: 300px;
+  max-width: 800px;
+  height: 200px;
+  word-wrap: break-word;
+  overflow: auto;
+ 
+
+  }
+  .errores
+  {
+    display: none;
+    position: absolute;
+    margin-top: -3%;
+    margin-left: 15%;
+    background-color: rgb(243, 171, 84);
+    padding-left: 2%;
+    padding-right: 2%;
+    border-radius: 8%;
+   
+  }
+  .esconder
+  {
+
+    position: absolute;
+    
+    margin-left: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+    border-radius: 8%;
+    cursor: pointer;
+    border: 1px solid;
+   
+  }
+  .esconder_2
+  {
+
+    position: absolute;
+    margin-left: 5%;
+    padding-left: 1%;
+    padding-right: 1%;
+    border-radius: 8%;
+    cursor: pointer;
+    border: 1px solid;
+
+   
+  }
+
+  .footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 15%;
+    width: 100%;
+    background-color: rgb(223, 142, 43);
+    color: black;
+    text-align: center;
+    
+}
+
+@media screen and (min-width: 768px){
+.formulario{
+  width: 40%;
+}
+}
+@media screen and (max-width: 767px) {
+  .formulario {
+    width: 35%; 
+    margin: 0 auto; 
+  }
+}

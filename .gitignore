@@ -1,0 +1,19 @@
+# Archivos bytecode de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de entorno o configuración
+*.env
+*.log
+
+
+# Archivos temporales o del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos del IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

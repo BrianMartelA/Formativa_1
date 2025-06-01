@@ -1,0 +1,297 @@
+{%load static%}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Index</title>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <script src="{% static 'script/scriptGaleria.js'%}"></script>
+  <script src="{% static 'JQuery/Redireccion.js'%}"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'CSS/quienesSomos.css'%}">
+
+
+</head>
+
+<!-- Barra de navegacion -->
+<!--Barra navegacion pantalla -->
+
+<!-- Formulario inicio -->
+
+<body style="Background-color : #a06c3f; ">
+ <style>
+        
+        .carousel-item{
+            height: 32rem;
+            position:relative;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .container{
+            position:absolute;   
+            bottom:0;
+            left:0;
+            right:0;    
+        }
+        .overlay-image{
+            position:absolute;
+            bottom:0;
+            left:0;
+            right:0;
+            top:0;
+            background-position: center;
+            background-size: cover;
+            opacity:0.8;
+            object-fit: contain;
+            
+        }
+
+        .parrafo1{
+            background-color: darksalmon;
+            border: 3px solid black;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .parrafo2{
+            background-color: darksalmon;
+            border: 3px solid black;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        
+        .carruselTodo{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 25%;
+
+        }
+
+
+    </style>
+  <div class="container" style="height: 100%;">
+    
+    <div class="col d-none d-md-block">
+      <div class="row">
+        <div class="col-4 "> <img src="{% static 'img/Logo.png'%}"width="45px" height="45px" ></div>
+        <div class="col-4 " >
+          <ul class="nav nav-underline nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'index'%}" style="color: blanchedalmond;">Indice</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page"  style="color: blanchedalmond; "href="{% url 'galeria'%}" >Galeria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'quienes_somos'%}" style="color: blanchedalmond;">Quienes somos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page"  href="{% url 'contacto' %}" style="color: blanchedalmond; ">Contacto</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-4" style="justify-content: end;">
+          <ul class="nav nav-underline nav justify-content-end">
+            <!----VENTANA FORMATO LOGEADO----->
+            {% if user.is_authenticated %}
+            {% if not user.is_superuser and not user.is_staff %}
+            <div class="dropdown">
+              <button class="btn btn-venta dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Menu</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'perfil'%}">Perfil</a></li>
+                <li>
+                  <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-light">logout</button>
+                  </form>
+                </li>
+                <li><a class="dropdown-item" href="{% url 'tienda'%}">Tiendas</a></li>
+              </ul>
+            </div>
+            {% elif user.is_staff%}
+            <div class="dropdown">
+              <button class="btn btn-venta dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Menu admin</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'perfil'%}">Perfil</a></li>
+                <li>
+                  <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-light">logout</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+            {% endif %}
+  
+  
+            {% else %}
+            <div class="dropdown">
+              <button class="btn btn-venta dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Menu
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'registro'%}">Registro</a></li>
+                <li><a class="dropdown-item" href="{% url 'login'%}">Inicio sesion</a></li>
+              </ul>
+            </div>
+            {% endif %}
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-dark" onclick="goTo('boulder')">Boulder</button>
+            </li>
+          </ul>
+  
+        </div>
+      </div>
+  
+    </div>
+      </div>
+    
+    </div>
+      
+    
+  
+  
+  </div>
+
+  <!--Barra navegacion tablet/celular -->
+
+  <div class="col d-block d-md-none">
+    <div class="dropdown">
+      <button class="btn btn-venta dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Menu
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{% url 'index'%}">Indice</a></li>
+        <li><a class="dropdown-item" href="{% url 'galeria' %}">Galeria</a></li>
+        <li><a class="dropdown-item" style="cursor: default;">Quienes somos</a></li>
+        <li><a class="dropdown-item" href="{% url 'contacto'%}">Contacto</a></li>
+        <li><a class="dropdown-item" href="{% url 'boulder'%}">Boulder</a></li>
+        {% if user.is_authenticated %}
+        {% if not user.is_superuser and not user.is_staff %}
+        <li><a class="dropdown-item" href="{% url 'perfil'%}">Perfil</a></li>
+        <li>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light">logout</button>
+          </form>
+        </li>
+        {% elif user.is_staff%}
+        <li><a class="dropdown-item" href="{% url 'perfil'%}">Perfil admin</a></li>
+        <li>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light">logout</button>
+          </form>
+        </li>
+        {% endif %}
+        {% else %}
+        <li><a class="dropdown-item" href="{% url 'registro' %}">Registro</a></li>
+        <li><a class="dropdown-item" href="{% url 'login'%}">Inicio sesion</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Imagenes -->
+
+
+ 
+<div class="carruselTodo" style="margin-top: 1%; margin-top: 3%;">
+    <div id="carrusel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carrusel" data-slide-to="0" class="active"></li>
+            <li data-target="#carrusel" data-slide-to="1"></li>
+            <li data-target="#carrusel" data-slide-to="2"></li>
+        </ol>
+        
+        <div class="carousel-inner">
+            <div class="carousel-item active" >
+            <div class="overlay-image" style="background-image:url('{% static 'img/Casco_escalada.jpg'%}')"></div>
+                <div class="container">
+
+                    <h1 style="color: red;">Casco de escalada</h1>
+                    <h3>$59.990</h3>
+                </div>
+            </div>
+            
+            <div class="carousel-item">
+                <div class="overlay-image" style="background-image:url('{% static 'img/Magnesiera_bolsa.jpg'%}')"></div>
+                <div class="container">
+                    <h1 style="color: red;">Magnesiera</h1>
+                    <h3 >$18.900</h3>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="overlay-image" style="background-image:url('{% static 'img/Guantes_escalar_unisex.jpg'%}'); "></div>
+                <div class="container">
+                    <h1 style="color: red;">Guantes Escalar unisex</h1>
+                    <h3>$12.990</h3>
+                </div>
+            </div>
+        </div>
+        
+        <a class="carousel-control-prev" href="#carrusel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+            <span class="sr-only" style="color: black;">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carrusel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true" ></span>
+            <span class="sr-only" style="color: black;">Next</span>
+
+        </a>
+
+    </div>
+</div>
+
+<div class="parrafo1">
+    <h1>Los Mejores precios</h1>
+    <p>Nuestra tienda ofrece precios totalmente accesibles para la gente que quiera obtener articulos para realizar escaladas</p>
+</div>
+
+<div class="parrafo2">
+
+    <h1>Potenciando el deporte Chileno</h1>
+    <p>Consideramos que la responsabilidad de Spider Boulder es de alta importancia considerando que está en nuestras manos la misión de proveer escaladores con articulos de alta calidad para que puedan realizar sus salidas sin inconvenientes</p>
+</div>
+
+
+
+  <footer >
+    <div class="footer">
+        Benjamin Rodriguez
+        Brian Martel
+        Daniel Avilar
+        @Copyrigth Derechos reservados.
+
+    
+        <a #link1 href="linkInstagram"><img src="{% static 'img/instagram.png'%}" alt="@SpiderBoulder" width="10%"
+          height="120%"> </img></a>
+    
+  </div>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>
