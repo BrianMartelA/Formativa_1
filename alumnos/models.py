@@ -28,11 +28,20 @@ class cliente(models.Model):
         return self.user
 
 
+# MODELO DE REGISTRO DE CLIENTE
 class Registro_cliente(models.Model):
+    # RELACIÓN UNO A UNO CON USER
     user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    # OneToOneField: Cada usuario de Django tiene exactamente un registro de cliente
+    # User: Modelo built-in de Django para autenticación
+    # on_delete=models.CASCADE: Si se elimina el User, se elimina automáticamente este registro
+    # default="": Valor por defecto (aunque debería ser None o no tener default)
 
+    # REPRESENTACIÓN EN STRING
     def __str__(self):
         return self.user.username
+        # Cuando se imprime este objeto, muestra el nombre de usuario
+        # Ejemplo: Si user.username = "juan123", __str__ devuelve "juan123"
 
 
 class BoletaModel(models.Model):

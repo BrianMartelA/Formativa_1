@@ -21,7 +21,18 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/alumnos/')),
+    # PANEL DE ADMINISTRACIÓN
+    # Crea la URL /admin/ para acceder al panel de administración de Django
+    # Ejemplo: localhost:8000/admin/
     path('admin/', admin.site.urls),
+        # URLS DE LA APP ALUMNOS
+    # Incluye todas las URLs definidas en alumnos/urls.py
+    # Todas las URLs de la app empezarán con /alumnos/
+    # Ejemplo: /alumnos/galeria/, /alumnos/contacto/, etc.
     path('alumnos/',include('alumnos.urls')),
+      # SISTEMA DE AUTENTICACIÓN AUTOMÁTICO
+    # Incluye todas las URLs de autenticación built-in de Django
+    # Crea automáticamente: /accounts/login/, /accounts/logout/, 
+    # /accounts/password_reset/, etc.
     path('accounts/', include('django.contrib.auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -18,69 +18,8 @@
 
   <div class="container">
 
-    <div class="col d-none d-md-block">
-      <div class="row">
-        <div class="col-4 "> <img src="{% static 'img/Logo.png'%}" width="45px" height="45px"></div>
-        <div class="col-4 ">
-          <ul class="nav nav-underline nav justify-content-center">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'index'%}"
-                style="color: blanchedalmond;">Indice</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'galeria'%}"
-                style="color: blanchedalmond; ">Galeria</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'quienes_somos'%}"
-                style="color: blanchedalmond;">Quienes somos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'contacto'%}"
-                style="color: blanchedalmond;">Contacto</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-4" style="justify-content: end;">
-          <ul class="nav nav-underline nav justify-content-end">
-            <li class="nav-item">
-              <button type="button" class="btn btn-outline-dark"
-                onclick="location.href='{% url 'registro'%}'">registrar</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="btn btn-outline-dark"
-                onclick="location.href='{% url 'boulder'%}'">Boulder</button>
-            </li>
-          </ul>
-
-        </div>
-      </div>
-
-    </div>
-
-
-
-
-  </div>
-
-  <!--Barra navegacion tablet/celular -->
-
-  <div class="col d-block d-md-none">
-    <div class="dropdown">
-      <button class="btn btn-venta dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Menu
-      </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{% url 'index'%}">Indice</a></li>
-        <li><a class="dropdown-item" href="{% url 'galeria'%}">Galeria</a></li>
-        <li><a class="dropdown-item" href="{% url 'quienes_somos'%}">Quienes somos</a></li>
-        <li><a class="dropdown-item" href="{% url 'contacto'%}">Contacto</a></li>
-        <li><a class="dropdown-item" href="{% url 'registro'%}">Registro</a></li>
-        <li><a class="dropdown-item" href="{% url 'boulder'%}">Boulder</a></li>
-      </ul>
-    </div>
-  </div>
-
+   
+  <!--Este es el inicio donde carga el login-->
   <div class="row" style="margin-top:2% ;">
     <div class="col-12 col-md-6 offset-md-3">
       <div class="card">
@@ -90,6 +29,8 @@
           <form action="" method="post">
             {% csrf_token%}
             {{form}}
+            <!-- Renderiza automáticamente los campos del AuthenticationForm -->
+          <!-- Incluye: campo usuario, campo contraseña, y sus validaciones -->
             <input type="submit" value="ingresar">
             <a href="{% url 'registro'%}">Crear Cuenta</a>
             <a href="{% url 'password_reset'%}">Recuperar contraseña</a>
@@ -98,6 +39,7 @@
       </div>
     </div>
   </div>
+  <!-- Este es el fin donde carga el login-->
   <footer>
     <div class="footer">
       Benjamin Rodriguez

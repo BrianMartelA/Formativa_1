@@ -9,7 +9,7 @@ from django.contrib import messages
 from alumnos.compra import Carrito
 from django.db.models import Q
 from .models import proveedores,amigos
-from .forms import ProveedorForm,AmigosForm
+from .forms import ProveedorForm
 from django.http import HttpResponse
 from openpyxl import Workbook
 from .models import amigos
@@ -38,7 +38,6 @@ def boulder(request):
 def test(request):
     context ={}
     return render(request,'alumnos/test.html',context)
-
 
 
 
