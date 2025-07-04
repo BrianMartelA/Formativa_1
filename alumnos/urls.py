@@ -26,7 +26,6 @@ urlpatterns = [
     path('product/add/',views.product_add, name='product_add'),
     path('product/edit/<int:id>/',views.product_edit, name='product_edit'),
     path('product/delete/<int:id>/',views.product_delete, name='product_delete'),
-    path('productos/exportar_excel/', views.exportar_productos_excel, name='exportar_productos_excel'),
 
     path('test', views.test, name='test'),
     path('', views.home, name='home'),
@@ -38,7 +37,6 @@ urlpatterns = [
 
 
   
-path('productos/exportar_excel/', views.exportar_productos_excel, name='exportar_productos_excel'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html'), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),

@@ -251,25 +251,3 @@ def amigos_add(request):
     else:
         form = AmigosForm()
         return render(request,'personas/amigos.html',{'form':form})
-
-@login_required
-def exportar_productos_excel(request):
-    productos = Productos.objects.all()
-    
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Productos"
-
-    # Cabecera
-    ws.append(['ID', 'Nombre', 'Descripción', 'Precio', 'Stock', 'Categoría'])
-
-    # Datos
-    for p in productos:
-        ws.append([p.id, p.nombre, p.description, p.price, p.stock, str(p.categoria)])
-
-    response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    )
-    response['Content-Disposition'] = 'attachment; filename=productos.xlsx'
-    wb.save(response)
-    return response

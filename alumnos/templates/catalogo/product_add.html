@@ -1,4 +1,5 @@
 {%load static%}
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -156,7 +157,8 @@
                     <label for="{{ form.field.name }}">
                         {{ form.id.label }}
                     </label>
-                    {{ form.id }}
+                        {{ form.id|add_class:"form-control"|attr:"pattern:[0-9]{7}"|attr:"maxlength:7"|attr:"inputmode:numeric" }}
+
                 </div>
                 <div class="row">
                     <label for="{{ form.field.name }}">
@@ -174,13 +176,15 @@
                     <label for="{{ form.field.name }}">
                         {{ form.price.label }}
                     </label>
-                    {{ form.price }}
+                        {{ form.price|add_class:"form-control"|attr:"type:number"|attr:"step:0.01"|attr:"min:0.01"|attr:"max:999999999" }}
+
                 </div>
                 <div class="row">
                     <label for="{{ form.field.name }}">
                         {{ form.stock.label }}
                     </label>
-                    {{ form.stock }}
+                            {{ form.stock|add_class:"form-control"|attr:"type:number"|attr:"min:0"|attr:"max:999999" }}
+
                 </div>
                 <div class="row">
                     <label for="{{ form.field.name }}">
@@ -218,6 +222,9 @@
         
       </div>
     </footer>    <script>
+        
+
+
         $(function(){
             $("#product-add-form").validate({
                 rules:{
@@ -251,10 +258,216 @@
                 }
             })
         })
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        $(document).ready(function(){
+    // Función para permitir solo números
+    function allowOnlyNumbers(input, allowDecimals = false) {
+        input.on('input', function() {
+            var value = this.value;
+            if (allowDecimals) {
+                // Permitir números decimales
+                this.value = value.replace(/[^0-9.]/g, '');
+                // Permitir solo un punto decimal
+                var parts = this.value.split('.');
+                if (parts.length > 2) {
+                    this.value = parts[0] + '.' + parts.slice(1).join('');
+                }
+            } else {
+                // Solo números enteros
+                this.value = value.replace(/[^0-9]/g, '');
+            }
+        });
+        
+        // Prevenir pegar contenido no numérico
+        input.on('paste', function(e) {
+            var clipboardData = e.originalEvent.clipboardData || window.clipboardData;
+            var pastedData = clipboardData.getData('text');
+            
+            if (allowDecimals) {
+                if (!/^\d*\.?\d*$/.test(pastedData)) {
+                    e.preventDefault();
+                }
+            } else {
+                if (!/^\d*$/.test(pastedData)) {
+                    e.preventDefault();
+                }
+            }
+        });
+        
+        // Prevenir teclas no numéricas
+        input.on('keydown', function(e) {
+            var key = e.which || e.keyCode;
+            // Permitir: backspace, delete, tab, escape, enter
+            if ([8, 9, 27, 13, 46].indexOf(key) !== -1 ||
+                // Permitir: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                (key === 65 && e.ctrlKey === true) ||
+                (key === 67 && e.ctrlKey === true) ||
+                (key === 86 && e.ctrlKey === true) ||
+                (key === 88 && e.ctrlKey === true) ||
+                // Permitir: home, end, left, right
+                (key >= 35 && key <= 39)) {
+                return;
+            }
+            // Permitir punto decimal si está habilitado
+            if (allowDecimals && key === 190 && this.value.indexOf('.') === -1) {
+                return;
+            }
+            // Asegurar que es un número
+            if ((e.shiftKey || (key < 48 || key > 57)) && (key < 96 || key > 105)) {
+                e.preventDefault();
+            }
+        });
+    }
     
+    // Aplicar restricciones numéricas
+    allowOnlyNumbers($("#id_id"), false); // Solo números enteros para ID
+    allowOnlyNumbers($("#id_price"), true); // Números decimales para precio
+    allowOnlyNumbers($("#id_stock"), false); // Solo números enteros para stock
+    
+    // Validación del formulario
+    $("#product-add-form").submit(function(e){
+        e.preventDefault();
+        
+        var id = $("#id_id").length ? $("#id_id").val().trim() : "";
+        var nombre = $("#id_nombre").length ? $("#id_nombre").val().trim() : "";
+        var description = $("#id_description").length ? $("#id_description").val().trim() : "";
+        var price = $("#id_price").length ? $("#id_price").val().trim() : "";
+        var stock = $("#id_stock").length ? $("#id_stock").val().trim() : "";
+        var categoria = $("#id_categoria").length ? $("#id_categoria").val() : "";
+        var image = $("#id_image").length ? $("#id_image").val() : "";
+        
+        var isValid = true;
+        
+        // Limpiar errores previos
+        $(".error-message").remove();
+        $(".form-control").removeClass("is-invalid");
+        
+        // Validar ID (exactamente 7 dígitos)
+        if ($("#id_id").length && id === "") {
+            showError("id_id", "El ID es requerido");
+            isValid = false;
+        } else if ($("#id_id").length && !/^\d{1,7}$/.test(id)) {
+            showError("id_id", "El ID debe tener exactamente 7 números");
+            isValid = false;
+        }
+        
+        // Validar nombre
+        if ($("#id_nombre").length && nombre === "") {
+            showError("id_nombre", "El nombre es requerido");
+            isValid = false;
+        } else if ($("#id_nombre").length && nombre.length < 3) {
+            showError("id_nombre", "El nombre debe tener al menos 3 caracteres");
+            isValid = false;
+        } else if ($("#id_nombre").length && nombre.length > 200) {
+            showError("id_nombre", "El nombre no puede exceder 200 caracteres");
+            isValid = false;
+        }
+        
+        // Validar descripción
+        if ($("#id_description").length && description === "") {
+            showError("id_description", "La descripción es requerida");
+            isValid = false;
+        } else if ($("#id_description").length && description.length < 10) {
+            showError("id_description", "La descripción debe tener al menos 10 caracteres");
+            isValid = false;
+        } else if ($("#id_description").length && description.length > 500) {
+            showError("id_description", "La descripción no puede exceder 500 caracteres");
+            isValid = false;
+        }
+        
+        // Validar precio (solo números, positivo)
+        if ($("#id_price").length && price === "") {
+            showError("id_price", "El precio es requerido");
+            isValid = false;
+        } else if ($("#id_price").length && (!/^\d+(\.\d{1,2})?$/.test(price) || parseFloat(price) <= 0)) {
+            showError("id_price", "El precio debe ser un número positivo válido");
+            isValid = false;
+        } else if ($("#id_price").length && parseFloat(price) > 999999999) {
+            showError("id_price", "El precio es demasiado alto");
+            isValid = false;
+        }
+        
+        // Validar stock (solo números enteros, no negativo)
+        if ($("#id_stock").length && stock === "") {
+            showError("id_stock", "El stock es requerido");
+            isValid = false;
+        } else if ($("#id_stock").length && (!/^\d+$/.test(stock) || parseInt(stock) < 0)) {
+            showError("id_stock", "El stock debe ser un número entero positivo o cero");
+            isValid = false;
+        } else if ($("#id_stock").length && parseInt(stock) > 999999) {
+            showError("id_stock", "El stock es demasiado alto");
+            isValid = false;
+        }
+        
+        // Validar categoría
+        if ($("#id_categoria").length && categoria === "") {
+            showError("id_categoria", "Debe seleccionar una categoría");
+            isValid = false;
+        }
+        
+        // Validar imagen
+        if ($("#id_image").length && image === "") {
+            showError("id_image", "Debe seleccionar una imagen");
+            isValid = false;
+        } else if ($("#id_image").length && image !== "") {
+            var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            var fileExtension = image.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                showError("id_image", "Formato de imagen no válido. Use: jpg, jpeg, png, gif, webp");
+                isValid = false;
+            }
+        }
+        
+        // Enviar formulario si es válido
+        if (isValid) {
+            console.log("Formulario válido, enviando...");
+            this.submit();
+        } else {
+            console.log("Formulario tiene errores, no se enviará");
+        }
+    });
+    
+    // Función para mostrar errores
+    function showError(fieldId, message) {
+        var field = $("#" + fieldId);
+        if (field.length) {
+            field.addClass("is-invalid");
+            field.after('<div class="error-message text-danger small mt-1">' + message + '</div>');
+        }
+    }
+    
+    // Validación en tiempo real
+    $("#id_price").on('input', function() {
+        var value = $(this).val();
+        if (value && (!/^\d+(\.\d{1,2})?$/.test(value) || parseFloat(value) <= 0)) {
+            $(this).addClass("is-invalid");
+        } else {
+            $(this).removeClass("is-invalid");
+        }
+    });
+    
+    $("#id_stock").on('input', function() {
+        var value = $(this).val();
+        if (value && (!/^\d+$/.test(value) || parseInt(value) < 0)) {
+            $(this).addClass("is-invalid");
+        } else {
+            $(this).removeClass("is-invalid");
+        }
+    });
+    
+    $("#id_id").on('input', function() {
+        var value = $(this).val();
+        if (value && !/^\d{7}$/.test(value)) {
+            $(this).addClass("is-invalid");
+        } else {
+            $(this).removeClass("is-invalid");
+        }
+    });
+});
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+crossorigin="anonymous"></script>
+   
 </body>
 </html>
