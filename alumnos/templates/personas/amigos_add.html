@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+       <div id="main-content" class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Añadir proveedor</h2>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'amigos_create' %}">
+    {% csrf_token %}
+
+    <div class="row">
+        <label for="{{ form.nombre }}">{{ form.nombre.label }}</label>
+        {{ form.nombre }}
+    </div>
+    <div class="row">
+        <label for="{{ form.fecha_conocido }}">{{ form.fecha_conocido.label }}</label>
+        {{ form.fecha_conocido }}
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Agregar">
+</form>
+        </div>
+    </div>
+    </div>
+
+    
+</body>
+</html>
+ 

@@ -4,6 +4,7 @@ from alumnos.views import *
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('',views.registro,name='register'),
     path('index',views.index,name='index'),
     path('galeria',views.galeria,name='galeria'),
     path('contacto',views.contacto,name='contacto'),
@@ -25,9 +26,19 @@ urlpatterns = [
     path('product/add/',views.product_add, name='product_add'),
     path('product/edit/<int:id>/',views.product_edit, name='product_edit'),
     path('product/delete/<int:id>/',views.product_delete, name='product_delete'),
+    path('productos/exportar_excel/', views.exportar_productos_excel, name='exportar_productos_excel'),
+
     path('test', views.test, name='test'),
     path('', views.home, name='home'),
 
+    path('proveedor/manage/', views.proveedor_manage, name='provider_manage'),
+    path('proveedor/agregar/', views.proveedor_add, name='provider_add'),
+    path('proveedor/editar/<str:id>/', views.proveedor_edit, name='provider_edit'),
+    path('proveedor/eliminar/<str:id>/', views.proveedor_delete, name='provider_delete'),
+
+
+  
+path('productos/exportar_excel/', views.exportar_productos_excel, name='exportar_productos_excel'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html'), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),

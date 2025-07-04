@@ -93,3 +93,18 @@ class Productos(models.Model):
     categoria= models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name="Categoria")
     def __str__(self):
         return self.nombre
+
+
+class proveedores(models.Model):
+    nombre = models.CharField(max_length=200)
+    description = models.CharField(max_length=500)
+    numero = models.IntegerField()
+    fecha_contrato = models.DateField()
+    def __str__(self):
+        return self.nombre
+
+class amigos(models.Model):
+    nombre = models.CharField(max_length=50)
+    fecha_conocido = models.DateField()
+    def __str__(self):
+        return self.nombre

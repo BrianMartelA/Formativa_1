@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 from .forms import SignUpForm, UserProfileForm, BoletaForm,ProductosForm
 from .models import cliente,Registro_cliente, BoletaModel,Articulo, Boleta, detalle_boleta,Productos
 from django.contrib.auth import authenticate, login
@@ -8,8 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from alumnos.compra import Carrito
 from django.db.models import Q
-
-
+from .models import proveedores,amigos
+from .forms import ProveedorForm,AmigosForm
+from django.http import HttpResponse
+from openpyxl import Workbook
+from .models import amigos
 
 # Create your views here.
 def index(request):
@@ -55,7 +58,7 @@ def registro(request):
             user=authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
             login(request, user)
             messages.success(request, "Te has registrado correctamente")
-            return redirect('index')
+            return redirect('login')
         data["form"] = formulario
     return render(request, 'alumnos/registro.html',data)
 
@@ -152,13 +155,13 @@ def crear_boleta(request):
     return render(request, 'test.html', {'form': form})
 
 
-
+@login_required
 def products_manage(request):
     products = Productos.objects.all()
     ctx  = {'products': products}
     return render(request, 'catalogo/product_manage.html', ctx)
 
-
+@login_required
 def product_add(request):
     if request.method == "POST":
         form = ProductosForm(request.POST,request.FILES)
@@ -168,7 +171,7 @@ def product_add(request):
     else:
         form = ProductosForm()
     return render(request, 'catalogo/product_add.html', {'form': form})
-
+@login_required
 def product_edit(request, id):
     product = Productos.objects.get(id=id)
     ctx = {
@@ -181,7 +184,7 @@ def product_edit(request, id):
             form.save()
             return redirect('product_manage')
     return render(request, 'catalogo/products_edit.html', ctx)
-
+@login_required
 def product_delete(request, id):
     product = Productos.objects.get(id=id)
     product.delete()
@@ -199,3 +202,74 @@ def boleta(request):
     boletas = BoletaModel.objects.filter(id_person_id=cliente_id)
 
     return render(request, 'alumnos/boleta.html',{'boletas':boletas})
+
+
+
+@login_required
+def proveedor_manage(request):
+    proveedor_list = proveedores.objects.all()
+    ctx = {'proveedores': proveedor_list}
+    return render(request, 'proveedores/provider_manage.html', ctx)
+@login_required
+def proveedor_add(request):
+    if request.method == "POST":
+        form = ProveedorForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('provider_manage')
+    else:
+        form = ProveedorForm()
+    return render(request, 'proveedores/provider.html', {'form': form})
+@login_required
+def proveedor_edit(request, id):
+    proveedor = get_object_or_404(proveedores, id=id)
+    if request.method == "POST":
+        form = ProveedorForm(request.POST, request.FILES, instance=proveedor)
+        if form.is_valid():
+            form.save()
+            return redirect('provider_manage')
+    else:
+        form = ProveedorForm(instance=proveedor)
+    return render(request, 'proveedores/provider_edit.html', {'form': form, 'id': id})
+@login_required
+def proveedor_delete(request, id):
+    proveedor = get_object_or_404(proveedores, id=id)
+    proveedor.delete()
+    return redirect('provider_manage')
+
+def amigos_manage(request):
+    amigos_list = amigos.objects.all()
+    ctx = {'amigos':amigos_list}
+    return render(request,'personas/amigos_manage.html',ctx)
+
+def amigos_add(request):
+    if request.method =='POST':
+        form =AmigosForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('amigos_manage')
+    else:
+        form = AmigosForm()
+        return render(request,'personas/amigos.html',{'form':form})
+
+@login_required
+def exportar_productos_excel(request):
+    productos = Productos.objects.all()
+    
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Productos"
+
+    # Cabecera
+    ws.append(['ID', 'Nombre', 'Descripción', 'Precio', 'Stock', 'Categoría'])
+
+    # Datos
+    for p in productos:
+        ws.append([p.id, p.nombre, p.description, p.price, p.stock, str(p.categoria)])
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename=productos.xlsx'
+    wb.save(response)
+    return response

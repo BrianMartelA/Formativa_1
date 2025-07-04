@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.db import models
 from .models import BoletaModel
-from alumnos.models import Productos
+from alumnos.models import Productos, proveedores,amigos
 
 
 
@@ -103,3 +103,14 @@ class ProductosForm(forms.ModelForm):
                 }
             )
         }
+class ProveedorForm(forms.ModelForm):
+    class Meta:
+        model = proveedores
+        fields = ['nombre', 'description', 'numero', 'fecha_contrato']
+        widgets = {'fecha_contrato':forms.DateInput(attrs={'type':'date'})}
+
+class AmigosForm(forms.ModelForm):
+    class Meta:
+        model = amigos
+        fields = ['nombre','fecha_conocido']
+        widgets = {'fecha_conocido':forms.DateInput(attrs={'type':'date'})}

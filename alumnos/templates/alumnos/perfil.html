@@ -178,7 +178,9 @@
       <div class="row">
         <div class="col">
           <button type="button" class="btn btn-primary" onclick="openWindow()">Historial compras</button>
-            
+          {% if user.is_staff%}
+          <a href="{% url 'provider_manage'%}">agregar proveedor</a>
+          {% endif %}
          
     
     
